@@ -1,0 +1,59 @@
+<app-navbar></app-navbar>
+
+<div class="container">
+  <!-- Left div: Doctor Registration Form -->
+  <div class="form-container">
+    <h2>{{ isEditing ? "Edit Doctor" : "Add New Doctor" }}</h2>
+    <form id="doctorForm" (ngSubmit)="isEditing ? updateDoctor() : addDoctor()">
+      <div class="form-group">
+        <label for="name">Name *</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          required
+          placeholder="Enter doctor's name"
+          [(ngModel)]="doctor.name"
+        />
+      </div>
+      <div class="form-group">
+        <label for="speciality">Speciality *</label>
+        <select
+          id="speciality"
+          name="speciality"
+          required
+          [(ngModel)]="doctor.speciality"
+        >
+          <option value="">Select speciality</option>
+          <option value="Dermatologist">Dermatologist</option>
+          <option value="Cardiologist">Cardiologist</option>
+          <option value="Gastroenterologist">Gastroenterologist</option>
+          <!-- Add more options as needed -->
+        </select>
+      </div>
+      <button type="submit" class="submit-btn">
+        {{ isEditing ? "Update" : "Add" }}
+      </button>
+    </form>
+  </div>
+
+  <!-- Right div: List of Doctors -->
+  <div class="list-container">
+    <h2>Doctors ({{ doctors.length }})</h2>
+    <div *ngFor="let doctor of doctors" class="doctor-card">
+      <div class="doctor-info">
+        <div class="doctor-icon">👨‍⚕️</div>
+        <div class="doctor-details">
+          <span class="doctor-name">{{ doctor.name }}</span>
+          <span class="doctor-specialty">{{ doctor.speciality }}</span>
+        </div>
+      </div>
+      <div class="doctor-actions">
+        <button class="edit-btn" (click)="editDoctor(doctor)">Edit</button>
+        <button class="delete-btn" (click)="deleteDoctor(doctor._id)">
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

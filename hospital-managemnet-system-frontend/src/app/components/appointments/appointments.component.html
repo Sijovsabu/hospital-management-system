@@ -1,0 +1,80 @@
+<app-navbar></app-navbar>
+<div class="container">
+  <!-- Left div: Appointment Form -->
+  <div class="form-container">
+    <h2>{{ isEditing ? "Edit Appointment" : "Add New Appointment" }}</h2>
+    <form
+      id="appointmentForm"
+      (ngSubmit)="isEditing ? updateAppointment() : addAppointment()"
+    >
+      <div class="form-group">
+        <label for="patient">Patient Name *</label>
+        <select
+          id="patient"
+          name="patient"
+          required
+          [(ngModel)]="appointment.patientId"
+        >
+          <option value="">Select patient</option>
+          <option *ngFor="let patient of patients" [value]="patient._id">
+            {{ patient.name }}
+          </option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="doctor">Doctor Name *</label>
+        <select
+          id="doctor"
+          name="doctor"
+          required
+          [(ngModel)]="appointment.doctorId"
+        >
+          <option value="">Select doctor</option>
+          <option *ngFor="let doctor of doctors" [value]="doctor._id">
+            {{ doctor.name }} {{ doctor.speciality }}
+          </option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="appointmentDate">Appointment Date *</label>
+        <input
+          type="date"
+          id="appointmentDate"
+          name="appointmentDate"
+          required
+          [(ngModel)]="appointment.date"
+        />
+      </div>
+      <button type="submit" class="submit-btn">
+        {{ isEditing ? "Update" : "Add" }}
+      </button>
+    </form>
+  </div>
+
+  <!-- Right div: List of Appointments -->
+  <div class="list-container">
+    <h2>Appointments ({{ appointments.length }})</h2>
+    <div *ngFor="let appointment of appointments" class="appointment-card">
+      <div class="appointment-info">
+        <div class="appointment-details">
+          <span class="appointment-patient"
+            >Patient Name : {{ appointment.patientName }}</span
+          ><br />
+          <span class="appointment-doctor">{{ appointment.doctorName }}</span
+          ><br />
+          <span class="appointment-date"
+            >Date : {{ appointment.date | date : "shortDate" }}</span
+          ><br />
+        </div>
+      </div>
+      <div class="appointment-actions">
+        <button class="edit-btn" (click)="editAppointment(appointment)">
+          Edit
+        </button>
+        <button class="delete-btn" (click)="deleteAppointment(appointment._id)">
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
